@@ -6,6 +6,7 @@ import {
   removeItem,
   highlightItem,
   addChoice,
+  changeChoice,
   filterChoices,
   activateChoices,
   addGroup,
@@ -383,7 +384,7 @@ class Choices {
 
     let rendererableChoices = choices;
 
-    if (renderSelectedChoices === 'auto' && !this.isSelectOneElement) {
+    if (renderSelectedChoices === 'auto') {
       rendererableChoices = choices.filter(choice => !choice.selected);
     }
 
@@ -1027,6 +1028,45 @@ class Choices {
     this.store.dispatch(
       clearAll(),
     );
+    return this;
+  }
+
+  /**
+   * Allows to change value, label, disabled
+   * and custom properties for the choice
+   * @param value of the choice
+   * @param {Function} mapper that would be executed
+   * on the choice
+   * @returns {Choices}
+   */
+  mapChoiceByValue(value, mapper) {
+    this.store.getChoices()
+      .filter(choice => choice.value === value)
+      .map((choice) => {
+        const mappedChoice = mapper({
+          value: choice.value,
+          label: choice.label,
+          disabled: choice.disabled,
+          customProperties: choice.customProperties,
+        });
+        Object.assign(choice, {
+          value: mappedChoice.value,
+          label: mappedChoice.label,
+          disabled: mappedChoice.disabled,
+          customProperties: mappedChoice.customProperties,
+        });
+        return choice;
+      })
+      .forEach((choice) => {
+        this.store.dispatch(
+          changeChoice(
+            choice.value,
+            choice.label,
+            choice.disabled,
+            choice.customProperties,
+          ),
+        );
+      });
     return this;
   }
 

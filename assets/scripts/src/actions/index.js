@@ -1,3 +1,5 @@
+import choices from "../reducers/choices";
+
 export const addItem = (
   value,
   label,
@@ -52,6 +54,20 @@ export const addChoice = (
   customProperties,
   placeholder,
   keyCode,
+});
+
+export const changeChoice = (
+  choiceId,
+  value,
+  label,
+  disabled,
+  customProperties,
+) => ({
+  type: 'CHANGE_CHOICE',
+  value,
+  label,
+  disabled,
+  customProperties,
 });
 
 export const filterChoices = results => ({

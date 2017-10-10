@@ -22,6 +22,19 @@ const choices = (state = [], action) => {
       }];
     }
 
+    case 'CHANGE_CHOICE': {
+      return state.map((obj) => {
+        const choice = obj;
+        if (choice.id === parseInt(action.choiceId, 10)) {
+          choice.disabled = action.disabled;
+          choice.value = action.value;
+          choice.label = action.label;
+          choice.customProperties = action.customProperties;
+        }
+        return choice;
+      });
+    }
+
     case 'ADD_ITEM': {
       let newState = state;
 

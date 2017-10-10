@@ -906,6 +906,22 @@ describe('Choices', () => {
 
       expect(this.choices.ajax).toHaveBeenCalledWith(jasmine.any(Function));
     });
+
+    it('should handle mapChoiceByValue()', function () {
+      const valueToChange
+
+      const mapFunc = (choice) => {
+        choice.disabled = true;
+        choice.customProperties = { foo: 'bar' };
+        choice.value = 'Changed value';
+        choice.label = 'Changed label';
+      };
+
+      this.choices.mapChoiceByValue('Value 1', mapFunc);
+
+      const choices = this.choices.currentState.choices;
+      const changedChoises = choices.filter(choice => choice.value === )
+    })
   });
 
   describe('should handle public methods on select-one input types', function() {
